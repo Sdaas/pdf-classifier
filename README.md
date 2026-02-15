@@ -37,6 +37,8 @@ Note
 	* [Knowledge Base](#KnowledgeBase)
 * [CLI Interface](#CLIInterface)
 * [Design](#Design)
+* [Debugging](#Debugging)
+* [Deployment](#Deployment)
 
 <!-- vscode-markdown-toc-config
 	numbering=false
@@ -149,7 +151,20 @@ Output format on error
 
 See [DESIGN.md](DESIGN.md) for the full design document covering architecture, classification algorithm, prompt structure, output format, error handling, and future enhancements.
 
-# Deployment
+## <a name='Debugging'></a>Debugging
+While user should use only the top-level `classifier.sh`, the lower-level scripts can also be used directly for debugging
+
+TBD - clean this up ...
+
+  ./classify.sh --verbose test-data/AAA.pdf > output.txt 2>&1
+   ./classify.sh --verbose test-data/FFF.pdf > output.txt 2>&1
+
+  /Users/sdaas/dev/pdf-classifier/.venv/bin/python3 /Users/sdaas/dev/pdf-classifier/scripts/extract_pdf.py test-data/FFF.pdf
+  /Users/sdaas/dev/pdf-classifier/.venv/bin/python3 /Users/sdaas/dev/pdf-classifier/scripts/llm_classifier.py /var/folders/xj/kyvcg17n4fl2jrct8x9mchbw0000gp/T/tmp.DWctcKAoOI /Users/sdaas/dev/pdf-classifier/kb.yaml --model llama3.1:8b --timeout 60 --verbose
+
+## <a name='Deployment'></a>Deployment
 
 The classification scripts in this repo will ultimately be used as a tool in a LLM based financial agent. This
 section contains the process for packaging and deploying
+
+TBD

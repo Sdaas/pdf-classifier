@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Extract text from a PDF file (first/last N lines of first/last page).
 
-Outputs normalized text (lowercased, whitespace-collapsed) to stdout.
+Outputs normalized text to stdout, with first-page and last-page blocks
+clearly labelled so downstream classifiers can distinguish header/footer
+from tabular content.
 
 Exit codes:
     0 - success
@@ -17,13 +19,17 @@ import sys
 import pdfplumber
 
 
-def normalize(text: str) -> str:
-    """Lowercase and collapse all whitespace to single spaces."""
-    return re.sub(r"\s+", " ", text.lower()).strip()
+def normalize_line(line: str) -> str:
+    """Lowercase and collapse whitespace within a single line."""
+    return re.sub(r"\s+", " ", line.lower()).strip()
 
 
 def extract(pdf_path: str, lines: int) -> tuple[str, list[int]]:
-    """Return (normalized text, pages_analyzed) from first/last page."""
+    """Return (normalized text, pages_analyzed) from first/last page.
+
+    Output is structured with labelled page blocks so the LLM can
+    distinguish header/footer from tabular content.
+    """
     with pdfplumber.open(pdf_path) as pdf:
         if not pdf.pages:
             return "", []
@@ -33,21 +39,28 @@ def extract(pdf_path: str, lines: int) -> tuple[str, list[int]]:
         first_lines = first_page_text.splitlines()[:lines]
 
         if num_pages == 1:
-            last_lines = first_page_text.splitlines()[-lines:]
-            all_lines_page = first_page_text.splitlines()
-            if len(all_lines_page) <= lines * 2:
-                combined = all_lines_page
+            all_lines = first_page_text.splitlines()
+            if len(all_lines) <= lines * 2:
+                selected = all_lines
             else:
-                combined = first_lines + last_lines
+                selected = first_lines + all_lines[-lines:]
+            normalized = [normalize_line(l) for l in selected if l.strip()]
+            text = "--- Page 1 ---\n" + "\n".join(normalized)
             pages_analyzed = [1]
         else:
             last_page_text = pdf.pages[-1].extract_text() or ""
             last_lines = last_page_text.splitlines()[-lines:]
-            combined = first_lines + last_lines
+            first_norm = [normalize_line(l) for l in first_lines if l.strip()]
+            last_norm = [normalize_line(l) for l in last_lines if l.strip()]
+            text = (
+                "--- First Page ---\n"
+                + "\n".join(first_norm)
+                + "\n\n--- Last Page ---\n"
+                + "\n".join(last_norm)
+            )
             pages_analyzed = [1, num_pages]
 
-    raw = "\n".join(combined)
-    return normalize(raw), pages_analyzed
+    return text, pages_analyzed
 
 
 def main():

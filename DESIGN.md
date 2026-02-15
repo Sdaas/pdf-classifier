@@ -278,5 +278,4 @@ do a retry. If the retry also fails, you treat the LLM classifier has having err
 
 ## <a name='OpenQuestions'></a>Open Questions
 
-None at this time. 
-
+- Since this will be used as a "tool" by another agent, how should this be "packaged" ?
