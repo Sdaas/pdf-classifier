@@ -1,0 +1,9 @@
+# Mac Stuff
+.DS_Store
+
+# Data Files
+test-data
+
+# Python
+.venv
+__pycache__

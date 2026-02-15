@@ -1,0 +1,28 @@
+# Knowledge Base
+# List of institutions (sources), their accounts, statement types, and formats.
+# Memo fields are free-form text for human notes — ignored by the classifier.
+
+sources:
+  - name: "Axis Bank"
+    accounts:
+      - type: "Savings Account"
+        statements:
+          - name: "Detailed Statement"
+            frequency: "Monthly"
+            fingerprints:
+              - "AxisBank" # Institution Name
+              - "UTIB" # IFSC prefix
+
+  - name: "Google Pay"
+    memo: "Google's payment platform. Statements may span multiple months."
+    accounts:
+      - type: null
+        statements:
+          - name: "Detailed Statement"
+            frequency: "Variable"
+            memo: "May span multiple months"
+            fingerprints:
+              - "theGooglePayapp"
+              - "GoogleAccount"
+              - "Transactionstatementperiod"
+
