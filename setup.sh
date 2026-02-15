@@ -18,7 +18,7 @@ fi
 
 # 2. Install dependencies
 echo "Installing Python dependencies..."
-"$VENV_DIR/bin/pip" install --quiet pdfplumber openpyxl requests pyyaml
+"$VENV_DIR/bin/pip" install --quiet -r "$SCRIPT_DIR/requirements.txt"
 echo "Dependencies installed."
 
 # 3. Verify Ollama

@@ -48,7 +48,14 @@ Note
 
 ## <a name='Dependencies'></a>Dependencies
 
-TBD List all the python packages and other dependencies like ollama and models etc
+- Docker
+- Python
+- Ollama
+  - download from https://ollama.aiand install
+  - OR `brew install ollama`
+  - Also install the command line tool ollama ( instructions are part of the ollama downloader )
+  - `ollama pull llama3.1:8b` - download the model
+  - `ollama list - list all` the downloaded models
 
 ## <a name='Usage'></a>Usage
 
@@ -152,9 +159,22 @@ Output format on error
 See [DESIGN.md](DESIGN.md) for the full design document covering architecture, classification algorithm, prompt structure, output format, error handling, and future enhancements.
 
 ## <a name='Debugging'></a>Debugging
+
+```bash
+./classify.sh --verbose test-data/AAA.pdf > output.txt 2>&1
+```
 While user should use only the top-level `classifier.sh`, the lower-level scripts can also be used directly for debugging
 
-TBD - clean this up ...
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+followed by
+
+```bash
+python scripts/extract_pdf.py test-data/FFF.pdf > {textile}
+python scripts/llm_classifier.py {textfile} kb.yaml --model llama3.1:8b --timeout 60 --verbose
+```
 
 
 ## <a name='Deployment'></a>Deployment
