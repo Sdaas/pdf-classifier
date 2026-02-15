@@ -7,3 +7,8 @@ test-data
 # Python
 .venv
 __pycache__
+
+# Application Stuff
+TODO.txt
+notes.txt
+Notes.txt

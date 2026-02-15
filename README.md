@@ -156,11 +156,6 @@ While user should use only the top-level `classifier.sh`, the lower-level script
 
 TBD - clean this up ...
 
-  ./classify.sh --verbose test-data/AAA.pdf > output.txt 2>&1
-   ./classify.sh --verbose test-data/FFF.pdf > output.txt 2>&1
-
-  /Users/sdaas/dev/pdf-classifier/.venv/bin/python3 /Users/sdaas/dev/pdf-classifier/scripts/extract_pdf.py test-data/FFF.pdf
-  /Users/sdaas/dev/pdf-classifier/.venv/bin/python3 /Users/sdaas/dev/pdf-classifier/scripts/llm_classifier.py /var/folders/xj/kyvcg17n4fl2jrct8x9mchbw0000gp/T/tmp.DWctcKAoOI /Users/sdaas/dev/pdf-classifier/kb.yaml --model llama3.1:8b --timeout 60 --verbose
 
 ## <a name='Deployment'></a>Deployment
 
